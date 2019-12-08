@@ -1,3 +1,8 @@
+
+// TODO
+// need to set random directions of motion
+// need to fix scoring
+
 let config = {
     type: Phaser.AUTO,
     width: 768,
@@ -18,7 +23,8 @@ let config = {
 let game = new Phaser.Game(config);
 
 let walls;
-let sprite;
+let score;
+let sprites = [];
 
 function preload ()
 {
@@ -26,8 +32,8 @@ function preload ()
     this.load.image('wood', 'assets/wood.gif');
 
     this.load.image('strawberry', 'assets/strawberry.png');
-    this.load.image('apple', 'assets/banana.png');
-    this.load.image('cherry', 'assets/bomb.png');
+    this.load.image('apple', 'assets/apple.png');
+    this.load.image('cherry', 'assets/cherry.png');
     this.load.image('banana', 'assets/banana.png');
     this.load.image('bomb', 'assets/bomb.png');
 
@@ -61,8 +67,28 @@ function create ()
     Phaser.Actions.PlaceOnRectangle(walls.getChildren(), new Phaser.Geom.Rectangle(16, 16, config.width - 32, config.height - 32));
     walls.refresh();
 
-    sprite = this.physics.add.image(400, 300, 'apple');
-    sprite.setVelocity(100, 200).setBounce(1, 1).setCollideWorldBounds(true);
+    function createFruit(game, fruit, points, velocity) {
+        let sprite = game.physics.add.image(Math.random()*(config.width - 96) + 48, Math.random()*(config.height - 96) + 48, fruit).setInteractive();
+        sprite.setVelocity(velocity).setBounce(1, 1).setCollideWorldBounds(true);
+        sprite.on('pointerdown', function (pointer) {
+            score += points; // doesn't seem to be working
+            this.x = Math.random()*(config.width - 96) + 48;
+            this.y = Math.random()*(config.height - 96) + 48;
+            game.click.play();
+        });
+        sprites.push(sprite);
+    }
+
+    createFruit(this, 'strawberry', 30, 120);
+    createFruit(this, 'strawberry', 30, 120);
+    createFruit(this, 'apple', 50, 160);
+    createFruit(this, 'apple', 50, 160);
+    createFruit(this, 'banana', 100, 240);
+    createFruit(this, 'banana', 100, 240);
+    createFruit(this, 'cherry', 100, 320);
+    createFruit(this, 'cherry', 100, 320);
+    createFruit(this, 'cherry', 100, 320);
+
 
     this.time.addEvent({ delay: 2000, callback: function() {
         let bomb = this.add.sprite(Math.random()*(config.width - 96) + 48, Math.random()*(config.height - 96) + 48, 'bomb').setInteractive();
@@ -75,5 +101,7 @@ function create ()
 
 function update ()
 {
-    this.physics.world.collide(sprite, walls);
+    sprites.forEach(e => {
+        this.physics.world.collide(e, walls);
+    });
 }
