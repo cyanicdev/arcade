@@ -1,8 +1,4 @@
 
-// TODO
-// need to set random directions of motion
-// need to fix scoring
-
 let config = {
     type: Phaser.AUTO,
     width: 768,
@@ -23,8 +19,9 @@ let config = {
 let game = new Phaser.Game(config);
 
 let walls;
-let score;
 let sprites = [];
+let score = 0;
+let scoreText;
 
 function preload ()
 {
@@ -67,27 +64,36 @@ function create ()
     Phaser.Actions.PlaceOnRectangle(walls.getChildren(), new Phaser.Geom.Rectangle(16, 16, config.width - 32, config.height - 32));
     walls.refresh();
 
+    scoreText = this.add.text(24, config.height - 23, 'score: 0', { 
+        fontSize: '14px', 
+        fill: '#fff', 
+        backgroundColor: '#000'
+    });
+
     function createFruit(game, fruit, points, velocity) {
         let sprite = game.physics.add.image(Math.random()*(config.width - 96) + 48, Math.random()*(config.height - 96) + 48, fruit).setInteractive();
-        sprite.setVelocity(velocity).setBounce(1, 1).setCollideWorldBounds(true);
+        sprite.setBounce(1, 1).setCollideWorldBounds(true);
+        game.physics.velocityFromRotation(Math.random()*360, velocity, sprite.body.velocity);
         sprite.on('pointerdown', function (pointer) {
-            score += points; // doesn't seem to be working
+            score += points;
+            scoreText.setText('Score: ' + score);
             this.x = Math.random()*(config.width - 96) + 48;
             this.y = Math.random()*(config.height - 96) + 48;
+            game.physics.velocityFromRotation(Math.random()*360, velocity, sprite.body.velocity);
             game.click.play();
         });
         sprites.push(sprite);
     }
 
-    createFruit(this, 'strawberry', 30, 120);
-    createFruit(this, 'strawberry', 30, 120);
-    createFruit(this, 'apple', 50, 160);
-    createFruit(this, 'apple', 50, 160);
-    createFruit(this, 'banana', 100, 240);
-    createFruit(this, 'banana', 100, 240);
-    createFruit(this, 'cherry', 100, 320);
-    createFruit(this, 'cherry', 100, 320);
-    createFruit(this, 'cherry', 100, 320);
+    createFruit(this, 'strawberry', 30, 240);
+    createFruit(this, 'strawberry', 30, 240);
+    createFruit(this, 'apple', 50, 320);
+    createFruit(this, 'apple', 50, 320);
+    createFruit(this, 'banana', 100, 480);
+    createFruit(this, 'banana', 100, 480);
+    createFruit(this, 'cherry', 100, 640);
+    createFruit(this, 'cherry', 100, 640);
+    createFruit(this, 'cherry', 100, 640);
 
 
     this.time.addEvent({ delay: 2000, callback: function() {
