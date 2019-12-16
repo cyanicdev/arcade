@@ -27,10 +27,12 @@ function preload() {
     );
 
     this.load.image('spritesheet', 'assets/spritesheet.png');
+    this.load.tilemapTiledJSON('map', 'assets/cybernoid.json ');
+
 }
 
 function create() {
-    const sample = [
+    /*const sample = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -51,9 +53,9 @@ function create() {
         [1, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    ];
-
-    const map = this.make.tilemap({ data: sample, tileWidth: 32, tileHeight: 32 });
+    ];*/
+ 
+    var map = this.make.tilemap({ key: 'map' });
     const tiles = map.addTilesetImage('spritesheet');
     const layer = map.createStaticLayer(0, tiles, 0, 0);
 
