@@ -35,7 +35,9 @@ function create() {
  
     var map = this.make.tilemap({ key: 'map' });
     const tiles = map.addTilesetImage('sample','spritesheet');
-    const layer = map.createStaticLayer(0, tiles, 0, 0);
+
+    const layer = map.createDynamicLayer("level1", tiles);
+    layer.putTileAt(1, 20, 10);
 
     player = this.physics.add.sprite(100, 450, 'player');
     player.setCollideWorldBounds(true);

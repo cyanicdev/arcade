@@ -16,8 +16,8 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   }
-});
+}, { collection: 'fruitain' });
 
-const UserModel = mongoose.model('user', UserSchema);
+const UserModel = mongoose.model('fruitain', UserSchema);
 
 module.exports = UserModel;
