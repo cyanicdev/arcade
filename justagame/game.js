@@ -39,8 +39,11 @@ function create() {
     const layer = map.createDynamicLayer("level1", tiles);
     layer.putTileAt(1, 20, 10);
 
-    player = this.physics.add.sprite(100, 450, 'player');
-    player.setCollideWorldBounds(true);
+    layer.setCollision(2, true);
+
+    this.player = this.physics.add.sprite(100, 450, 'player');
+    // player.setCollideWorldBounds(true);
+    this.physics.add.collider(this.player, layer);
 
     this.anims.create({
         key: 'left',
@@ -66,20 +69,23 @@ function create() {
 }
 
 function update(time, delta) {
+    this.cameras.main.scrollX += 0.5;
+    this.cameras.main.scrollY = this.player.y - (config.height / 2);
+
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
-        player.anims.play('left', true);
+        this.player.setVelocityX(-160);
+        this.player.anims.play('left', true);
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(160);
-        player.anims.play('right', true);
+        this.player.setVelocityX(160);
+        this.player.anims.play('right', true);
     }
     else {
-        player.setVelocityX(0);
-        player.anims.play('idle');
+        this.player.setVelocityX(0);
+        this.player.anims.play('idle');
     }
 
     if (cursors.up.isDown /*&& player.body.touching.down*/) {
-        player.setVelocityY(-330);
+        this.player.setVelocityY(-330);
     }
 }
